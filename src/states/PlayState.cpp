@@ -40,26 +40,22 @@ void PlayState::update(sf::Time dt) {
 }
 
 void PlayState::render(sf::RenderWindow& window) {
-    sf::Vector2u windowSize = window.getSize();
     sf::Vector2u textureSize = mBackgroundTexture.getSize();
+    float windowHeight = static_cast<float>(600);
+    float scaleY = windowHeight / static_cast<float>(textureSize.y);
 
-    float scaleX = static_cast<float>(windowSize.x) / 800.0f; // Assuming 800 is the original width
-    float scaleY = static_cast<float>(windowSize.y) / 600.0f; // Assuming 600 is the original height
+    mBackgroundSprite.setScale(scaleY, scaleY);
 
-    int repeatCountX = windowSize.x / textureSize.x + 1;
-    mBackgroundSprite.setTextureRect(sf::IntRect(0, 0, repeatCountX * textureSize.x, textureSize.y));
-
-    // Scale the background sprite
-    mBackgroundSprite.setScale(scaleX, scaleY);
+    // Set the texture rect to repeat horizontally
+    sf::IntRect textureRect(0, 0, static_cast<int>(800 / scaleY), textureSize.y);
+    mBackgroundSprite.setTextureRect(textureRect);
 
     // Render the static background sprite
     window.draw(mBackgroundSprite);
 
-    for (auto& platform : mPlatforms) {
-        platform.getShape().setScale(scaleX, scaleY);
+    for (const auto& platform : mPlatforms) {
         window.draw(platform.getShape());
     }
 
-    mPlayer.getSprite().setScale(scaleX, scaleY);
     mPlayer.render(window);
 }

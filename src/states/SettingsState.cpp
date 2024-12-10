@@ -38,6 +38,9 @@ void SettingsState::handleInput(sf::RenderWindow& window) {
                 sf::Vector2u resolution = mResolutions[mSelectedOption];
                 mWindow.create(sf::VideoMode(resolution.x, resolution.y), "Retromania", sf::Style::Close);
 
+                sf::View view(sf::FloatRect(0, 0, 800, 600));
+                mWindow.setView(view);
+
                 window.clear();
 				mStack.clearStates();
             }
