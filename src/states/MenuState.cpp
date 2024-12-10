@@ -1,7 +1,7 @@
 #include "../../include/states/MenuState.hpp"
 #include "../../include/states/StateStack.hpp"
 #include <SFML/Graphics.hpp>
-#include <iostream> // For logging
+#include <iostream>
 
 MenuState::MenuState(StateStack& stack)
     : State(stack), mSelectedOption(0) {
@@ -62,8 +62,9 @@ void MenuState::handleInput(sf::RenderWindow& window) {
             }
             if (event.key.code == sf::Keyboard::Enter) {
                 if (mSelectedOption == 0) {
-                    // Transition to PlayState
-                    mStack.pushState(1); // Use proper state ID or enum
+                    // starts game, window.clear is REQUIRED
+                    window.clear();
+                    mStack.pushState(1);
                 }
                 else if (mSelectedOption == 1) {
                     // Close game
