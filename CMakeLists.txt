@@ -31,7 +31,8 @@ set(SOURCES
     src/states/StateStack.cpp
     src/entities/Player.cpp 
     src/core/State.cpp
-    src/entities/Platform.cpp)
+    src/entities/Platform.cpp
+    src/states/SettingsState.cpp)
 
 include_directories(
     include

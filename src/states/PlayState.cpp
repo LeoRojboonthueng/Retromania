@@ -4,12 +4,13 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-PlayState::PlayState(StateStack& stack)
-    : State(stack), mPlayer() {
+PlayState::PlayState(StateStack& stack, sf::RenderWindow& window)
+    : State(stack, window), mPlayer() {
     // Load the background texture (this will be a static image, not a sprite sheet)
     if (!mBackgroundTexture.loadFromFile("assets/images/Background.png")) {
         std::cerr << "Error loading background image!" << std::endl;
     }
+    mBackgroundTexture.setRepeated(true);
     mBackgroundSprite.setTexture(mBackgroundTexture);
 
     // test platforms
@@ -39,33 +40,26 @@ void PlayState::update(sf::Time dt) {
 }
 
 void PlayState::render(sf::RenderWindow& window) {
-    // Scale the sprite to fit the entire window size while maintaining the aspect ratio
+    sf::Vector2u windowSize = window.getSize();
     sf::Vector2u textureSize = mBackgroundTexture.getSize();
-    float textureAspect = static_cast<float>(textureSize.x) / static_cast<float>(textureSize.y);
-    float windowAspect = static_cast<float>(window.getSize().x) / static_cast<float>(window.getSize().y);
 
-    float scaleX = 1.0f;
-    float scaleY = 1.0f;
+    float scaleX = static_cast<float>(windowSize.x) / 800.0f; // Assuming 800 is the original width
+    float scaleY = static_cast<float>(windowSize.y) / 600.0f; // Assuming 600 is the original height
 
-    // If the window aspect ratio is greater than the texture's aspect ratio, scale by width
-    if (windowAspect > textureAspect) {
-        scaleX = static_cast<float>(window.getSize().x) / static_cast<float>(textureSize.x);
-        scaleY = scaleX; // Maintain aspect ratio
-    }
-    else { // Otherwise, scale by height
-        scaleY = static_cast<float>(window.getSize().y) / static_cast<float>(textureSize.y);
-        scaleX = scaleY; // Maintain aspect ratio
-    }
+    int repeatCountX = windowSize.x / textureSize.x + 1;
+    mBackgroundSprite.setTextureRect(sf::IntRect(0, 0, repeatCountX * textureSize.x, textureSize.y));
 
+    // Scale the background sprite
     mBackgroundSprite.setScale(scaleX, scaleY);
 
     // Render the static background sprite
     window.draw(mBackgroundSprite);
 
-    for (const auto& platform : mPlatforms) {
+    for (auto& platform : mPlatforms) {
+        platform.getShape().setScale(scaleX, scaleY);
         window.draw(platform.getShape());
     }
 
-    // Render the player (and other entities later)
+    mPlayer.getSprite().setScale(scaleX, scaleY);
     mPlayer.render(window);
 }

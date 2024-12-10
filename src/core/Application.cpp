@@ -2,15 +2,17 @@
 #include "./../include/states/MenuState.hpp"
 #include "./../include/states/PlayState.hpp"
 #include "../../include/states/PauseState.hpp"
+#include "../../include/states/SettingsState.hpp"
 
 Application::Application()
     : mWindow(sf::VideoMode(WindowWidth, WindowHeight), WindowTitle, sf::Style::Close),
-    mStateStack() {
+    mStateStack(mWindow) {
     mWindow.setFramerateLimit(60);
 
     mStateStack.registerState<MenuState>(0); // MenuState
     mStateStack.registerState<PlayState>(1); // PlayState
     mStateStack.registerState<PauseState>(2); // PauseState
+	mStateStack.registerState<SettingsState>(3); // SettingsState
 
     mStateStack.pushState(0);
 }
@@ -24,7 +26,7 @@ void Application::run() {
 }
 
 void Application::processEvents() {
-    mStateStack.handleInput(mWindow);
+    mStateStack.handleInput();
 }
 
 void Application::update(sf::Time dt) {
@@ -33,7 +35,7 @@ void Application::update(sf::Time dt) {
 
 void Application::render() {
     mWindow.clear();
-    mStateStack.render(mWindow);
+    mStateStack.render();
     mWindow.display();
 }
 

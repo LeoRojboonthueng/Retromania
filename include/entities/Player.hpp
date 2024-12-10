@@ -11,6 +11,7 @@ public:
     void handleInput();
     void update(sf::Time dt, const std::vector<Platform>& platforms);
     void render(sf::RenderWindow& window);
+    sf::Sprite& getSprite();
 
 private:
     sf::Sprite mSprite;

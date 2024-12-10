@@ -1,6 +1,7 @@
 #include "../../include/states/StateStack.hpp"
 
-StateStack::StateStack() {
+StateStack::StateStack(sf::RenderWindow& window)
+    : mWindow(window) {
 }
 
 void StateStack::pushState(int stateID) {
@@ -17,9 +18,9 @@ void StateStack::clearStates() {
 	mPendingChanges.push_back({ Push, 0 });
 }
 
-void StateStack::handleInput(sf::RenderWindow& window) {
+void StateStack::handleInput() {
     if (!mStack.empty()) {
-        mStack.back()->handleInput(window);
+        mStack.back()->handleInput(mWindow);
     }
 }
 
@@ -31,9 +32,9 @@ void StateStack::update(sf::Time dt) {
 }
 
 
-void StateStack::render(sf::RenderWindow& window) {
+void StateStack::render() {
     if (!mStack.empty()) {
-        mStack.back()->render(window);
+        mStack.back()->render(mWindow);
     }
 }
 

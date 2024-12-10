@@ -5,7 +5,7 @@
 
 class PauseState : public State {
 public:
-    PauseState(StateStack& stack);
+    PauseState(StateStack& stack, sf::RenderWindow& window);
 
     void handleInput(sf::RenderWindow& window) override;
     void update(sf::Time dt) override;

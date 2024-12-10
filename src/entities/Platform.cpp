@@ -6,6 +6,10 @@ Platform::Platform(float x, float y, float width, float height) {
     mShape.setFillColor(sf::Color::Green);
 }
 
+sf::RectangleShape& Platform::getShape() {
+    return mShape;
+}
+
 const sf::RectangleShape& Platform::getShape() const {
     return mShape;
 }

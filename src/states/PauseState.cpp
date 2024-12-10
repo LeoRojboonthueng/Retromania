@@ -2,8 +2,8 @@
 #include "../../include/states/StateStack.hpp"
 #include <iostream>
 
-PauseState::PauseState(StateStack& stack)
-    : State(stack), mSelectedOption(0) {
+PauseState::PauseState(StateStack& stack, sf::RenderWindow& window)
+    : State(stack, window), mSelectedOption(0) {
     if (!mFont.loadFromFile("assets/fonts/Roboto.ttf")) {
         std::cerr << "Failed to load font" << std::endl;
     }

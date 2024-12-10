@@ -16,7 +16,7 @@ public:
         Clear
     };
 
-    explicit StateStack();
+    explicit StateStack(sf::RenderWindow& window);
 
     template <typename T>
     void registerState(int stateID);
@@ -24,9 +24,9 @@ public:
     void pushState(int stateID);
     void popState();
     void clearStates();
-    void handleInput(sf::RenderWindow& window);
+    void handleInput();
     void update(sf::Time dt);
-    void render(sf::RenderWindow& window);
+    void render();
 
 private:
     struct PendingChange {
@@ -39,11 +39,12 @@ private:
     std::vector<std::unique_ptr<State>> mStack;
     std::vector<PendingChange> mPendingChanges;
     std::map<int, std::function<std::unique_ptr<State>()>> mFactories;
+    sf::RenderWindow& mWindow;
 };
 
 template <typename T>
 void StateStack::registerState(int stateID) {
-    mFactories[stateID] = [this]() { return std::make_unique<T>(*this); };
+    mFactories[stateID] = [this]() { return std::make_unique<T>(*this, mWindow); };
     std::cout << "Registered state with ID: " << stateID << std::endl;
 }
 

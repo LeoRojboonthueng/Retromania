@@ -23,6 +23,10 @@ Player::Player()
     mSprite.setPosition(50.0f, 450.0f);
 }
 
+sf::Sprite& Player::getSprite() {
+    return mSprite;
+}
+
 void Player::handleInput() {
     mVelocity.x = 0.0f;
 

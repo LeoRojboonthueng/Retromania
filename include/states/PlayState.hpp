@@ -8,7 +8,7 @@
 
 class PlayState : public State {
 public:
-    explicit PlayState(StateStack& stack);
+    explicit PlayState(StateStack& stack, sf::RenderWindow& window);
 
     void handleInput(sf::RenderWindow& window) override;
     void update(sf::Time dt) override;

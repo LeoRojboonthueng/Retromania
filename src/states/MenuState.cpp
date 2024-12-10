@@ -3,22 +3,15 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-MenuState::MenuState(StateStack& stack)
-    : State(stack), mSelectedOption(0) {
+MenuState::MenuState(StateStack& stack, sf::RenderWindow& window)
+    : State(stack, window), mSelectedOption(0) {
     // Load the menu background image
     if (!mBackgroundTexture.loadFromFile("assets/images/menu_background.png")) {
         std::cerr << "Error: Failed to load menu background image!\n";
     }
     else {
         mBackgroundSprite.setTexture(mBackgroundTexture);
-
-        // Scale the background to fit the window
-        sf::Vector2u windowSize = sf::Vector2u(800, 600); // Replace with dynamic size if needed
-        sf::Vector2u textureSize = mBackgroundTexture.getSize();
-        float scaleX = static_cast<float>(windowSize.x) / textureSize.x;
-        float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
-
-        mBackgroundSprite.setScale(scaleX, scaleY);
+        updateBackgroundScale();
     }
 
     // Load font
@@ -45,6 +38,12 @@ MenuState::MenuState(StateStack& stack)
     mExitOption.setCharacterSize(32);
     mExitOption.setFillColor(sf::Color::White);
     mExitOption.setPosition(200, 300);
+
+    mSettingsOption.setFont(mFont);
+    mSettingsOption.setString("Settings");
+    mSettingsOption.setCharacterSize(32);
+    mSettingsOption.setFillColor(sf::Color::White);
+    mSettingsOption.setPosition(200, 350);
 }
 
 void MenuState::handleInput(sf::RenderWindow& window) {
@@ -54,11 +53,11 @@ void MenuState::handleInput(sf::RenderWindow& window) {
             window.close();
         }
         if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down) {
-                // Toggle between menu options
-                mSelectedOption = 1 - mSelectedOption;
-                mStartOption.setFillColor(mSelectedOption == 0 ? sf::Color::Green : sf::Color::White);
-                mExitOption.setFillColor(mSelectedOption == 1 ? sf::Color::Green : sf::Color::White);
+            if (event.key.code == sf::Keyboard::Up) {
+                mSelectedOption = (mSelectedOption + 2) % 3;
+            }
+            if (event.key.code == sf::Keyboard::Down) {
+                mSelectedOption = (mSelectedOption + 1) % 3;
             }
             if (event.key.code == sf::Keyboard::Enter) {
                 if (mSelectedOption == 0) {
@@ -69,8 +68,16 @@ void MenuState::handleInput(sf::RenderWindow& window) {
                 else if (mSelectedOption == 1) {
                     // Close game
                     window.close();
+				}
+                else if (mSelectedOption == 2) {
+                    // settings
+                    window.clear();
+                    mStack.pushState(3);
                 }
             }
+            mStartOption.setFillColor(mSelectedOption == 0 ? sf::Color::Green : sf::Color::White);
+            mExitOption.setFillColor(mSelectedOption == 1 ? sf::Color::Green : sf::Color::White);
+            mSettingsOption.setFillColor(mSelectedOption == 2 ? sf::Color::Green : sf::Color::White);
         }
     }
 }
@@ -87,4 +94,13 @@ void MenuState::render(sf::RenderWindow& window) {
     window.draw(mTitle);
     window.draw(mStartOption);
     window.draw(mExitOption);
+	window.draw(mSettingsOption);
+}
+
+void MenuState::updateBackgroundScale() {
+    sf::Vector2u windowSize = mWindow.getSize();
+    sf::Vector2u textureSize = mBackgroundTexture.getSize();
+    float scaleX = static_cast<float>(windowSize.x) / textureSize.x;
+    float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
+    mBackgroundSprite.setScale(scaleX, scaleY);
 }
