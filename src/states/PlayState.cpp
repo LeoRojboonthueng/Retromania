@@ -1,5 +1,6 @@
 #include "../../include/states/PlayState.hpp"
 #include "../../include/states/StateStack.hpp"
+#include "../../include/entities/Platform.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -11,8 +12,9 @@ PlayState::PlayState(StateStack& stack)
     }
     mBackgroundSprite.setTexture(mBackgroundTexture);
 
-    // Optionally, you can set the texture rect if you only want part of the image (like a single frame from a sprite sheet)
-    // mBackgroundSprite.setTextureRect(sf::IntRect(0, 0, mFrameWidth, mFrameHeight));  // For example, if using part of a sprite sheet
+    // test platforms
+    mPlatforms.emplace_back(150.0f, 500.0f, 200.0f, 20.0f);
+    mPlatforms.emplace_back(400.0f, 450.0f, 200.0f, 20.0f);
 }
 
 void PlayState::handleInput(sf::RenderWindow& window) {
@@ -33,7 +35,7 @@ void PlayState::handleInput(sf::RenderWindow& window) {
 }
 
 void PlayState::update(sf::Time dt) {
-    mPlayer.update(dt);
+    mPlayer.update(dt, mPlatforms);
 }
 
 void PlayState::render(sf::RenderWindow& window) {
@@ -59,6 +61,10 @@ void PlayState::render(sf::RenderWindow& window) {
 
     // Render the static background sprite
     window.draw(mBackgroundSprite);
+
+    for (const auto& platform : mPlatforms) {
+        window.draw(platform.getShape());
+    }
 
     // Render the player (and other entities later)
     mPlayer.render(window);

@@ -3,6 +3,7 @@
 
 #include "../core/State.hpp"
 #include "../entities/Player.hpp"
+#include "../entities/Platform.hpp"
 #include <SFML/Graphics.hpp>
 
 class PlayState : public State {
@@ -16,6 +17,8 @@ public:
 private:
     sf::Texture mBackgroundTexture;
     sf::Sprite mBackgroundSprite;
+
+	std::vector<Platform> mPlatforms;
 
     Player mPlayer;
     float mPlayerSpeed = 200.0f;
