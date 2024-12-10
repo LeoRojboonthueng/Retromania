@@ -11,6 +11,17 @@ include_directories(${SFML_DIR}/include)
 
 add_subdirectory(${SFML_DIR})
 
+include(FetchContent)
+
+# Fetch nlohmann_json
+FetchContent_Declare(
+  nlohmann_json
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_TAG v3.11.3
+)
+
+FetchContent_MakeAvailable(nlohmann_json)
+
 set(SOURCES
     src/main.cpp
     src/core/Application.cpp
@@ -18,7 +29,7 @@ set(SOURCES
     src/states/PlayState.cpp
     src/states/PauseState.cpp
     src/states/StateStack.cpp
-    src/entities/Player.cpp
+    src/entities/Player.cpp 
     src/core/State.cpp)
 
 include_directories(
@@ -32,6 +43,7 @@ target_link_libraries(${PROJECT_NAME}
     sfml-window
     sfml-graphics
     sfml-audio
+    nlohmann_json::nlohmann_json
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
