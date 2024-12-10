@@ -1,25 +1,24 @@
 #ifndef PLAYSTATE_HPP
 #define PLAYSTATE_HPP
 
-#include "../core/State.hpp"  // Base State class
-#include "../states/StateStack.hpp"  // StateStack class
-#include "../entities/Player.hpp"  // Player class
-#include <SFML/Graphics.hpp>  // SFML graphics library
+#include "../core/State.hpp"
+#include "../entities/Player.hpp"
+#include <SFML/Graphics.hpp>
 
 class PlayState : public State {
 public:
-    explicit PlayState(StateStack& stack);  // Constructor
+    explicit PlayState(StateStack& stack);
 
-    void handleInput(sf::RenderWindow& window) override;  // Handle user input
-    void update(sf::Time dt) override;                   // Update game logic
-    void render(sf::RenderWindow& window) override;      // Render the scene
+    void handleInput(sf::RenderWindow& window) override;
+    void update(sf::Time dt) override;
+    void render(sf::RenderWindow& window) override;
 
 private:
-    sf::Texture mBackgroundTexture;  // Background texture
-    sf::Sprite mBackgroundSprite;    // Sprite for the background
+    sf::Texture mBackgroundTexture;
+    sf::Sprite mBackgroundSprite;
 
-    Player mPlayer;  // Player object
-    float mPlayerSpeed = 200.0f;  // Player speed (pixels per second)
+    Player mPlayer;
+    float mPlayerSpeed = 200.0f;
 };
 
 #endif  // PLAYSTATE_HPP
