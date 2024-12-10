@@ -2,13 +2,14 @@
 #define PLAYER_HPP
 
 #include <SFML/Graphics.hpp>
+#include "Platform.hpp"
 
 class Player {
 public:
     Player();
 
     void handleInput();
-    void update(sf::Time dt);
+    void update(sf::Time dt, const std::vector<Platform>& platforms);
     void render(sf::RenderWindow& window);
 
 private:
@@ -33,6 +34,7 @@ private:
 
     void loadSprite(const std::string& spriteName);
     void updateAnimation(sf::Time dt);
+    void checkCollisions(const std::vector<Platform>& platforms);
 };
 
 #endif

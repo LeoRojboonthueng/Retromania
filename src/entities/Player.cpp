@@ -6,7 +6,7 @@
 // Just for proving rendering worked, need to redo this
 
 Player::Player()
-    : mSpeed(200.0f), mVelocity(0.0f, 0.0f), mCurrentFrame(0), mFrameTime(sf::seconds(0.2f)), mGravity(1500.0f), mGroundLevel(450.0f), mMaxJumpHeight(150.0f) {
+    : mSpeed(200.0f), mVelocity(0.0f, 0.0f), mCurrentFrame(0), mFrameTime(sf::seconds(0.2f)), mGravity(1500.0f), mGroundLevel(560.0f), mMaxJumpHeight(150.0f) {
 
     if (!mTexture.loadFromFile("assets/images/spritesheet.png")) {
         std::cerr << "Error loading sprite sheet texture!" << std::endl;
@@ -38,10 +38,12 @@ void Player::handleInput() {
     }
 }
 
-void Player::update(sf::Time dt) {
+void Player::update(sf::Time dt, const std::vector<Platform>& platforms) {
     mVelocity.y += mGravity * dt.asSeconds();
 
     mSprite.move(mVelocity * dt.asSeconds());
+
+    checkCollisions(platforms);
 
     if (mSprite.getPosition().y < mJumpStartY - mMaxJumpHeight) {
         mSprite.setPosition(mSprite.getPosition().x, mJumpStartY - mMaxJumpHeight);
@@ -83,6 +85,9 @@ void Player::loadSprite(const std::string& spriteName) {
 
     mSprite.setTexture(mTexture);
     mSprite.setTextureRect(sf::IntRect(x, y, w, h));
+
+    float currentHeight = static_cast<float>(h);
+    mSprite.setOrigin(0, currentHeight);
 }
 
 void Player::updateAnimation(sf::Time dt) {
@@ -91,6 +96,12 @@ void Player::updateAnimation(sf::Time dt) {
     if (mCurrentAnimation != mPreviousAnimation) {
         mCurrentFrame = 0;
         mPreviousAnimation = mCurrentAnimation;
+
+        if (mSprite.getPosition().y == mGroundLevel) {
+            float currentHeight = mSprite.getGlobalBounds().height;
+            mSprite.setOrigin(0, currentHeight);
+            mSprite.setPosition(mSprite.getPosition().x, mGroundLevel);
+        }
     }
 
     if (mElapsedTime >= mFrameTime) {
@@ -109,4 +120,19 @@ void Player::updateAnimation(sf::Time dt) {
             loadSprite(mJumpFrames[mCurrentFrame]);
         }
     }
+}
+
+void Player::checkCollisions(const std::vector<Platform>& platforms) {
+    for (const auto& platform : platforms) {
+        sf::FloatRect playerBounds = mSprite.getGlobalBounds();
+        sf::FloatRect platformBounds = platform.getShape().getGlobalBounds();
+
+        if (playerBounds.intersects(platformBounds) && mVelocity.y > 0 && playerBounds.top + playerBounds.height <= platformBounds.top + 10) {
+            mGroundLevel = platformBounds.top;
+            mSprite.setPosition(mSprite.getPosition().x, mGroundLevel);
+            mVelocity.y = 0.0f;
+            return;
+        }
+    }
+    mGroundLevel = 560.0f;
 }
