@@ -5,7 +5,7 @@
 #include <iostream>
 
 PlayState::PlayState(StateStack& stack, sf::RenderWindow& window)
-    : State(stack, window), mPlayer() {
+    : State(stack, window), mPlayer(), mView(sf::FloatRect(0, 0, 800, 600)) {
     // Load the background texture (this will be a static image, not a sprite sheet)
     if (!mBackgroundTexture.loadFromFile("assets/images/Background.png")) {
         std::cerr << "Error loading background image!" << std::endl;
@@ -37,17 +37,28 @@ void PlayState::handleInput(sf::RenderWindow& window) {
 
 void PlayState::update(sf::Time dt) {
     mPlayer.update(dt, mPlatforms);
+
+    sf::Vector2f playerPosition = mPlayer.getPosition();
+    if (playerPosition.x < 50.0f) {
+        playerPosition.x = 50.0f;
+        mPlayer.setPosition(playerPosition);
+    }
+    mView.setCenter(playerPosition.x+150, mView.getSize().y / 2.0f);
 }
 
 void PlayState::render(sf::RenderWindow& window) {
+    window.setView(mView);
+
     sf::Vector2u textureSize = mBackgroundTexture.getSize();
     float windowHeight = static_cast<float>(600);
     float scaleY = windowHeight / static_cast<float>(textureSize.y);
 
     mBackgroundSprite.setScale(scaleY, scaleY);
 
-    // Set the texture rect to repeat horizontally
-    sf::IntRect textureRect(0, 0, static_cast<int>(800 / scaleY), textureSize.y);
+    float backgroundX = mView.getCenter().x - 400.0f;
+    mBackgroundSprite.setPosition(backgroundX, 0);
+
+    sf::IntRect textureRect(static_cast<int>(backgroundX / scaleY), 0, static_cast<int>(800 / scaleY), textureSize.y);
     mBackgroundSprite.setTextureRect(textureRect);
 
     // Render the static background sprite

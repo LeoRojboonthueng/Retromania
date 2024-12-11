@@ -27,6 +27,14 @@ sf::Sprite& Player::getSprite() {
     return mSprite;
 }
 
+sf::Vector2f Player::getPosition() const {
+    return mSprite.getPosition();
+}
+
+void Player::setPosition(const sf::Vector2f& position) {
+    mSprite.setPosition(position);
+}
+
 void Player::handleInput() {
     mVelocity.x = 0.0f;
 

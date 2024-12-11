@@ -12,6 +12,8 @@ public:
     void update(sf::Time dt, const std::vector<Platform>& platforms);
     void render(sf::RenderWindow& window);
     sf::Sprite& getSprite();
+    sf::Vector2f getPosition() const;
+    void setPosition(const sf::Vector2f& position);
 
 private:
     sf::Sprite mSprite;

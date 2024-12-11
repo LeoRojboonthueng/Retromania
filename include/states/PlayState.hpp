@@ -15,6 +15,8 @@ public:
     void render(sf::RenderWindow& window) override;
 
 private:
+    sf::View mView;
+
     sf::Texture mBackgroundTexture;
     sf::Sprite mBackgroundSprite;
 
