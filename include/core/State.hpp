@@ -13,6 +13,8 @@ public:
     virtual void handleInput(sf::RenderWindow& window) = 0;
     virtual void update(sf::Time dt) = 0;
     virtual void render(sf::RenderWindow& window) = 0;
+    virtual void onEnter() {}
+    virtual void onExit() {}
 
 protected:
     StateStack& mStack;

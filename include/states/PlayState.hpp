@@ -13,6 +13,8 @@ public:
     void handleInput(sf::RenderWindow& window) override;
     void update(sf::Time dt) override;
     void render(sf::RenderWindow& window) override;
+    void onEnter() override;
+    void onExit() override;
 
 private:
     sf::View mView;
@@ -23,7 +25,11 @@ private:
 	std::vector<Platform> mPlatforms;
 
     Player mPlayer;
-    float mPlayerSpeed = 200.0f;
+    
+    sf::Vector2f mSavedPlayerPosition;
+    sf::View mSavedView;
+    bool mFirstLoad;
+	bool mPaused;
 };
 
 #endif  // PLAYSTATE_HPP

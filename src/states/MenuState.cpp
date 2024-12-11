@@ -64,6 +64,7 @@ void MenuState::handleInput(sf::RenderWindow& window) {
                     // starts game, window.clear is REQUIRED
                     window.clear();
                     mStack.pushState(1);
+                    mStack.popState();
                 }
                 else if (mSelectedOption == 1) {
                     // Close game
