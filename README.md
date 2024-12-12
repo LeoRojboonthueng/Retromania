@@ -17,9 +17,9 @@ A simple SFML-based game with a movable player character and background
    ```
 
 3. Creat an installer:
-1. ```bash
-   cpack
-1. ```
+   ```bash
+   `cpack``
+   ```
 
 4. Run the installer!
    Found in build/Retromania-0.0.1-win64.exe (or win32)
