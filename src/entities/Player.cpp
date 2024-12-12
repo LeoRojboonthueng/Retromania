@@ -8,7 +8,7 @@
 Player::Player()
     : mSpeed(200.0f), mVelocity(0.0f, 0.0f), mCurrentFrame(0), mFrameTime(sf::seconds(0.2f)), mGravity(1500.0f), mGroundLevel(560.0f), mMaxJumpHeight(150.0f) {
 
-    if (!mTexture.loadFromFile("assets/images/spritesheet.png")) {
+    if (!mTexture.loadFromFile("assets/images/player_spritesheet.png")) {
         throw std::runtime_error("Error loading player sprite sheet!");
     }
 
@@ -89,7 +89,7 @@ sf::FloatRect Player::getBounds() const {
 }
 
 void Player::loadSprite(const std::string& spriteName) {
-	std::ifstream file("assets/images/spritesheet.json");
+	std::ifstream file("assets/images/player_spritesheet.json");
     nlohmann::json json;
     file >> json;
 
