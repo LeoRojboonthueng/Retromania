@@ -10,7 +10,7 @@ A simple SFML-based game with a movable player character and background
 	
 2. Run CMake to generate the build files:
    ```bash
-   mkdir build (if it doesn't exist)
+   mkdir build
    cd build
    cmake -DCMAKE_BUILD_TYPE=Release ..
    cmake --build . --config Release
