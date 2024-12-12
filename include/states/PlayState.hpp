@@ -3,7 +3,9 @@
 
 #include "../core/State.hpp"
 #include "../entities/Player.hpp"
+#include "../entities/Enemy.hpp"
 #include "../entities/Platform.hpp"
+#include "../entities/Level.hpp"
 #include <SFML/Graphics.hpp>
 
 class PlayState : public State {
@@ -25,11 +27,18 @@ private:
 	std::vector<Platform> mPlatforms;
 
     Player mPlayer;
+    std::vector<Enemy> mEnemies;
     
     sf::Vector2f mSavedPlayerPosition;
     sf::View mSavedView;
     bool mFirstLoad;
 	bool mPaused;
+
+    sf::RectangleShape mEndBlock;
+    int mCurrentLevel;
+	std::vector<Level> mLevels;
+    void loadLevel(int levelIndex);
+    void checkEndBlockCollision();
 };
 
 #endif  // PLAYSTATE_HPP

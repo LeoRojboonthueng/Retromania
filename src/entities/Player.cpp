@@ -9,7 +9,7 @@ Player::Player()
     : mSpeed(200.0f), mVelocity(0.0f, 0.0f), mCurrentFrame(0), mFrameTime(sf::seconds(0.2f)), mGravity(1500.0f), mGroundLevel(560.0f), mMaxJumpHeight(150.0f) {
 
     if (!mTexture.loadFromFile("assets/images/spritesheet.png")) {
-        std::cerr << "Error loading sprite sheet texture!" << std::endl;
+        throw std::runtime_error("Error loading player sprite sheet!");
     }
 
     mIdleFrames = { "idle1.png", "idle2.png", "idle3.png", "idle4.png" };
@@ -82,6 +82,10 @@ void Player::update(sf::Time dt, const std::vector<Platform>& platforms) {
 
 void Player::render(sf::RenderWindow& window) {
     window.draw(mSprite);
+}
+
+sf::FloatRect Player::getBounds() const {
+    return mSprite.getGlobalBounds();
 }
 
 void Player::loadSprite(const std::string& spriteName) {

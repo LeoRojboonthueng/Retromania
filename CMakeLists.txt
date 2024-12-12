@@ -32,7 +32,8 @@ set(SOURCES
     src/entities/Player.cpp 
     src/core/State.cpp
     src/entities/Platform.cpp
-    src/states/SettingsState.cpp)
+    src/states/SettingsState.cpp
+    src/entities/Enemy.cpp)
 
 include_directories(
     include
