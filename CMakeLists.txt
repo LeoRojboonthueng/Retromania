@@ -54,3 +54,16 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
+
+include(InstallRequiredSystemLibraries)
+set(CPACK_PACKAGE_NAME "Retromania")
+set(CPACK_PACKAGE_VERSION "0.0.1") # the game shouldnt be considered even near complete
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Retromania Game")
+set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "Retromania")
+set(CPACK_GENERATOR "NSIS")
+
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION bin)
+
+include(CPack)
