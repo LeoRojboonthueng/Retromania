@@ -18,7 +18,7 @@ A simple SFML-based game with a movable player character and background
 
 3. Creat an installer:
    ```bash
-   `cpack``
+   cpack
    ```
 
 4. Run the installer!
