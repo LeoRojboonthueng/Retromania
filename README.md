@@ -6,6 +6,7 @@ A simple SFML-based game with a movable player character and background
    Currently the game is in a pre-release state, bugs may occur.
    You can grab the latest version from: 
    https://github.com/LeoRojboonthueng/Retromania/releases/tag/0.0.1
+
    Or alternatively, you can build from source (see bellow)
 
 ## Building Instructions
